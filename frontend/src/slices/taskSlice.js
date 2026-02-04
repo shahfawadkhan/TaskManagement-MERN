@@ -1,22 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addTask, deleteTask, getTasks, updateTask } from "../services/taskServices";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  addTask,
+  deleteTask,
+  getTasks,
+  updateTask,
+} from '../services/taskServices';
 
-export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async (userId) => {
-  const response = await getTasks(userId); 
-  return response;
-});
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (userId) => {
+    const response = await getTasks(userId);
+    return response;
+  }
+);
 
-export const createTask = createAsyncThunk("tasks/createTask", async (task) => {
+export const createTask = createAsyncThunk('tasks/createTask', async (task) => {
   const response = await addTask(task);
   return response;
 });
 
-export const editTask = createAsyncThunk("tasks/editTask", async ({ id, task }) => {
-  const response = await updateTask(id, task);
-  return response;
-});
+export const editTask = createAsyncThunk(
+  'tasks/editTask',
+  async ({ id, task }) => {
+    const response = await updateTask(id, task);
+    return response;
+  }
+);
 
-export const removeTask = createAsyncThunk("tasks/deleteTask", async (id) => {
+export const removeTask = createAsyncThunk('tasks/deleteTask', async (id) => {
   await deleteTask(id);
   return id;
 });
@@ -28,7 +39,7 @@ const initialState = {
 };
 
 const taskSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState,
   reducers: {
     resetState: () => initialState,
@@ -51,7 +62,9 @@ const taskSlice = createSlice({
         state.tasks.push(action.payload);
       })
       .addCase(editTask.fulfilled, (state, action) => {
-        const index = state.tasks.findIndex((task) => task._id === action.payload._id);
+        const index = state.tasks.findIndex(
+          (task) => task._id === action.payload._id
+        );
         if (index !== -1) {
           state.tasks[index] = action.payload;
         }
@@ -62,5 +75,5 @@ const taskSlice = createSlice({
   },
 });
 
-export const { resetState } = taskSlice.actions; 
+export const { resetState } = taskSlice.actions;
 export default taskSlice.reducer;
