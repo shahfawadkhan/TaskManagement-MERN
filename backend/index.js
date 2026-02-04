@@ -12,6 +12,6 @@ app.listen(PORT, () => {
 
 // testing 
 
-const x = 10;
+// const x = 10;
 
 
